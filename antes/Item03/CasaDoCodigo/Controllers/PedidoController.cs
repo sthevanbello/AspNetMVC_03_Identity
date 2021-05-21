@@ -1,7 +1,9 @@
-﻿using CasaDoCodigo.Models;
+﻿using CasaDoCodigo.Areas.Identity.Data;
+using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,11 +17,14 @@ namespace CasaDoCodigo.Controllers
         private readonly IProdutoRepository produtoRepository;
         private readonly IPedidoRepository pedidoRepository;
 
+        private readonly UserManager<AppIdentityUser> userManager;
+
         public PedidoController(IProdutoRepository produtoRepository,
-            IPedidoRepository pedidoRepository)
+            IPedidoRepository pedidoRepository, UserManager<AppIdentityUser> userManager)
         {
             this.produtoRepository = produtoRepository;
             this.pedidoRepository = pedidoRepository;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Carrossel()
@@ -59,6 +64,17 @@ namespace CasaDoCodigo.Controllers
                 return RedirectToAction("Carrossel");
             }
 
+            var usuario = await userManager.GetUserAsync(this.User);
+            pedido.Cadastro.Email = usuario.Email;
+            pedido.Cadastro.Telefone = usuario.Telefone;
+            pedido.Cadastro.Nome = usuario.Nome;
+            pedido.Cadastro.Endereco = usuario.Endereco;
+            pedido.Cadastro.Municipio = usuario.Municipio;
+            pedido.Cadastro.Bairro = usuario.Bairro;
+            pedido.Cadastro.CEP = usuario.CEP;
+            pedido.Cadastro.Complemento = usuario.Complemento;
+            pedido.Cadastro.UF = usuario.UF;
+
             return View(pedido.Cadastro);
         }
 
@@ -69,6 +85,19 @@ namespace CasaDoCodigo.Controllers
         {
             if (ModelState.IsValid)
             {
+                var usuario         = await userManager.GetUserAsync(this.User);
+                usuario.Email       = cadastro.Email;
+                usuario.Telefone    = cadastro.Telefone;
+                usuario.Nome        = cadastro.Nome;
+                usuario.Endereco    = cadastro.Endereco;
+                usuario.Municipio   = cadastro.Municipio;
+                usuario.Bairro      = cadastro.Bairro;
+                usuario.CEP         = cadastro.CEP;
+                usuario.Complemento = cadastro.Complemento;
+                usuario.UF          = cadastro.UF;
+
+                await userManager.UpdateAsync(usuario);
+
                 return View(await pedidoRepository.UpdateCadastroAsync(cadastro));
             }
             return RedirectToAction("Cadastro");
