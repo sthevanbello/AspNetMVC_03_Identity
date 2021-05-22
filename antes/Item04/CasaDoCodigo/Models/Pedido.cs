@@ -11,9 +11,10 @@ namespace CasaDoCodigo.Models
     //veja o diagrama
     public class Pedido : BaseModel
     {
-        public Pedido()
+        public Pedido(string clienteId)
         {
             Cadastro = new Cadastro();
+            ClienteId = clienteId;
         }
 
         //TAREFA 02: CRIAR CONSTRUTOR COM ID DO CLIENTE
@@ -21,9 +22,10 @@ namespace CasaDoCodigo.Models
         //TAREFA 03: ADICIONAR MIGRAÇÃO
         //TAREFA 04: APLICAR MIGRAÇÃO
         
-        public Pedido(Cadastro cadastro)
+        public Pedido(Cadastro cadastro, string clienteId)
         {
             Cadastro = cadastro;
+            ClienteId = clienteId;
         }
 
         public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
@@ -32,6 +34,8 @@ namespace CasaDoCodigo.Models
         public int CadastroId { get; set; }
         [Required]
         public virtual Cadastro Cadastro { get; private set; }
+        [Required]
+        public string ClienteId { get; set; }
 
         //TAREFA 01: ADICIONAR ID DO CLIENTE AO PEDIDO
     }
