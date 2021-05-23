@@ -1,0 +1,16 @@
+https://localhost:44337/signin-microsoft
+
+Nome de exibição:
+CasaDoCodigo_22052021
+
+ID do aplicativo (cliente):
+53ab25a9-67b8-4e53-a0f0-2556a2396bf1
+
+ID do Objeto:
+4f1174ff-5608-4527-9594-a1bf7dfdfa1c
+
+ID do diretório (locatário):
+f8cdef31-a31e-4b4a-93e4-5f571e91255a
+
+senha valor: ljNd~_.MoTOHwbU49ezU4l.eG4n5mkngJc
+secret id: 2d0f9df9-02fd-4377-ba83-f80f611cbcae
